@@ -1,0 +1,6 @@
+NAME            IMAGE                      COMMAND                  SERVICE   CREATED         STATUS                   PORTS
+warehouse-api   warehouseapipostgres-api   "dotnet WarehouseApi…"   api       5 seconds ago   Up 1 second              0.0.0.0:8080->8080/tcp, [::]:8080->8080/tcp
+warehouse-db    postgres:16                "docker-entrypoint.s…"   db        5 seconds ago   Up 4 seconds (healthy)   5432/tcp
+NAME            IMAGE                      COMMAND                  SERVICE   CREATED         STATUS                   PORTS
+warehouse-api   warehouseapipostgres-api   "dotnet WarehouseApi…"   api       5 seconds ago   Up 1 second              0.0.0.0:8080->8080/tcp, [::]:8080->8080/tcp
+warehouse-db    postgres:16                "docker-entrypoint.s…"   db        5 seconds ago   Up 5 seconds (healthy)   5432/tcp

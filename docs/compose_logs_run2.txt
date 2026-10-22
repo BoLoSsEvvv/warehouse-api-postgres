@@ -1,0 +1,61 @@
+warehouse-db  | 
+warehouse-db  | PostgreSQL Database directory appears to contain a database; Skipping initialization
+warehouse-db  | 
+warehouse-db  | 2026-10-22 13:18:41.670 UTC [1] LOG:  starting PostgreSQL 16.15 (Debian 16.15-1.pgdg13+2) on aarch64-unknown-linux-gnu, compiled by gcc (Debian 14.2.0-19) 14.2.0, 64-bit
+warehouse-db  | 2026-10-22 13:18:41.670 UTC [1] LOG:  listening on IPv4 address "0.0.0.0", port 5432
+warehouse-db  | 2026-10-22 13:18:41.670 UTC [1] LOG:  listening on IPv6 address "::", port 5432
+warehouse-db  | 2026-10-22 13:18:41.671 UTC [1] LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
+warehouse-db  | 2026-10-22 13:18:41.673 UTC [29] LOG:  database system was shut down at 2026-10-22 13:18:41 UTC
+warehouse-db  | 2026-10-22 13:18:41.675 UTC [1] LOG:  database system is ready to accept connections
+warehouse-api  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+warehouse-api  |       Executed DbCommand (12ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+warehouse-api  |       SELECT 1
+warehouse-api  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+warehouse-api  |       Executed DbCommand (13ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+warehouse-api  |       SELECT CASE WHEN COUNT(*) = 0 THEN FALSE ELSE TRUE END
+warehouse-api  |       FROM pg_class AS cls
+warehouse-api  |       JOIN pg_namespace AS ns ON ns.oid = cls.relnamespace
+warehouse-api  |       WHERE
+warehouse-api  |               cls.relkind IN ('r', 'v', 'm', 'f', 'p') AND
+warehouse-api  |               ns.nspname NOT IN ('pg_catalog', 'information_schema') AND
+warehouse-api  |               -- Exclude tables which are members of PG extensions
+warehouse-api  |               NOT EXISTS (
+warehouse-api  |                   SELECT 1 FROM pg_depend WHERE
+warehouse-api  |                       classid=(
+warehouse-api  |                           SELECT cls.oid
+warehouse-api  |                           FROM pg_class AS cls
+warehouse-api  |                                    JOIN pg_namespace AS ns ON ns.oid = cls.relnamespace
+warehouse-api  |                           WHERE relname='pg_class' AND ns.nspname='pg_catalog'
+warehouse-api  |                       ) AND
+warehouse-api  |                       objid=cls.oid AND
+warehouse-api  |                       deptype IN ('e', 'x')
+warehouse-api  |               )
+warehouse-api  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+warehouse-api  |       Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+warehouse-api  |       SELECT EXISTS (
+warehouse-api  |           SELECT 1
+warehouse-api  |           FROM products AS p)
+warehouse-api  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+warehouse-api  |       Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+warehouse-api  |       SELECT count(*)::int
+warehouse-api  |       FROM products AS p
+warehouse-api  | info: WarehouseApi[0]
+warehouse-api  |       Database already has 4 products, seed skipped
+warehouse-api  | info: WarehouseApi[0]
+warehouse-api  |       Warehouse API started, connected to PostgreSQL
+warehouse-api  | info: Microsoft.Hosting.Lifetime[14]
+warehouse-api  |       Now listening on: http://[::]:8080
+warehouse-api  | info: Microsoft.Hosting.Lifetime[0]
+warehouse-api  |       Application started. Press Ctrl+C to shut down.
+warehouse-api  | info: Microsoft.Hosting.Lifetime[0]
+warehouse-api  |       Hosting environment: Production
+warehouse-api  | info: Microsoft.Hosting.Lifetime[0]
+warehouse-api  |       Content root path: /app
+warehouse-api  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+warehouse-api  |       Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+warehouse-api  |       SELECT 1
+warehouse-api  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+warehouse-api  |       Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+warehouse-api  |       SELECT p.id, p.min_quantity, p.name, p.price, p.quantity, p.sku
+warehouse-api  |       FROM products AS p
+warehouse-api  |       ORDER BY p.id

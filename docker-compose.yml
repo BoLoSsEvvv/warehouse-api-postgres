@@ -1,0 +1,45 @@
+services:
+  # ---------- База данных ----------
+  db:
+    image: postgres:16
+    container_name: warehouse-db
+    environment:
+      POSTGRES_DB: app            # имя базы
+      POSTGRES_USER: postgres     # пользователь
+      POSTGRES_PASSWORD: "1234"   # пароль
+    volumes:
+      # Данные PostgreSQL лежат в именованном volume — переживают docker compose down/up
+      - db_data:/var/lib/postgresql/data
+    networks:
+      - warehouse_net
+    healthcheck:
+      # Контейнер считается готовым, когда PostgreSQL принимает подключения
+      test: ["CMD-SHELL", "pg_isready -U postgres -d app"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+    restart: unless-stopped
+
+  # ---------- API ----------
+  api:
+    build: .                      # образ собирается из Dockerfile в корне проекта
+    container_name: warehouse-api
+    environment:
+      ASPNETCORE_HTTP_PORTS: "8080"
+      # Host=db — API ходит в PostgreSQL по имени сервиса внутри сети warehouse_net
+      ConnectionStrings__Default: "Host=db;Port=5432;Database=app;Username=postgres;Password=1234;Gss Encryption Mode=Disable"
+    ports:
+      - "8080:8080"               # хост:контейнер
+    depends_on:
+      db:
+        condition: service_healthy   # API стартует только после того, как db прошла healthcheck
+    networks:
+      - warehouse_net
+    restart: unless-stopped
+
+volumes:
+  db_data:
+
+networks:
+  warehouse_net:
+    driver: bridge

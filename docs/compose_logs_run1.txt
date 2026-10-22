@@ -1,0 +1,209 @@
+warehouse-db  | The files belonging to this database system will be owned by user "postgres".
+warehouse-db  | This user must also own the server process.
+warehouse-db  | 
+warehouse-db  | The database cluster will be initialized with locale "en_US.utf8".
+warehouse-db  | The default database encoding has accordingly been set to "UTF8".
+warehouse-db  | The default text search configuration will be set to "english".
+warehouse-db  | 
+warehouse-db  | Data page checksums are disabled.
+warehouse-db  | 
+warehouse-db  | fixing permissions on existing directory /var/lib/postgresql/data ... ok
+warehouse-db  | creating subdirectories ... ok
+warehouse-db  | selecting dynamic shared memory implementation ... posix
+warehouse-db  | selecting default max_connections ... 100
+warehouse-db  | selecting default shared_buffers ... 128MB
+warehouse-db  | selecting default time zone ... Etc/UTC
+warehouse-db  | creating configuration files ... ok
+warehouse-db  | running bootstrap script ... ok
+warehouse-db  | performing post-bootstrap initialization ... ok
+warehouse-db  | syncing data to disk ... ok
+warehouse-db  | 
+warehouse-db  | 
+warehouse-db  | initdb: warning: enabling "trust" authentication for local connections
+warehouse-db  | initdb: hint: You can change this by editing pg_hba.conf or using the option -A, or --auth-local and --auth-host, the next time you run initdb.
+warehouse-db  | Success. You can now start the database server using:
+warehouse-db  | 
+warehouse-db  |     pg_ctl -D /var/lib/postgresql/data -l logfile start
+warehouse-db  | 
+warehouse-db  | waiting for server to start....2026-10-22 13:18:36.322 UTC [48] LOG:  starting PostgreSQL 16.15 (Debian 16.15-1.pgdg13+2) on aarch64-unknown-linux-gnu, compiled by gcc (Debian 14.2.0-19) 14.2.0, 64-bit
+warehouse-db  | 2026-10-22 13:18:36.322 UTC [48] LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
+warehouse-db  | 2026-10-22 13:18:36.324 UTC [51] LOG:  database system was shut down at 2026-10-22 13:18:36 UTC
+warehouse-db  | 2026-10-22 13:18:36.325 UTC [48] LOG:  database system is ready to accept connections
+warehouse-db  |  done
+warehouse-db  | server started
+warehouse-db  | CREATE DATABASE
+warehouse-db  | 
+warehouse-db  | 
+warehouse-db  | /usr/local/bin/docker-entrypoint.sh: ignoring /docker-entrypoint-initdb.d/*
+warehouse-db  | 
+warehouse-db  | waiting for server to shut down....2026-10-22 13:18:36.466 UTC [48] LOG:  received fast shutdown request
+warehouse-db  | 2026-10-22 13:18:36.467 UTC [48] LOG:  aborting any active transactions
+warehouse-db  | 2026-10-22 13:18:36.468 UTC [48] LOG:  background worker "logical replication launcher" (PID 54) exited with exit code 1
+warehouse-db  | 2026-10-22 13:18:36.468 UTC [49] LOG:  shutting down
+warehouse-db  | 2026-10-22 13:18:36.468 UTC [49] LOG:  checkpoint starting: shutdown immediate
+warehouse-db  | 2026-10-22 13:18:36.491 UTC [49] LOG:  checkpoint complete: wrote 926 buffers (5.7%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.007 s, sync=0.016 s, total=0.024 s; sync files=301, longest=0.005 s, average=0.001 s; distance=4273 kB, estimate=4273 kB; lsn=0/191F098, redo lsn=0/191F098
+warehouse-db  | 2026-10-22 13:18:36.494 UTC [48] LOG:  database system is shut down
+warehouse-db  |  done
+warehouse-db  | server stopped
+warehouse-db  | 
+warehouse-db  | PostgreSQL init process complete; ready for start up.
+warehouse-db  | 
+warehouse-db  | 2026-10-22 13:18:36.583 UTC [1] LOG:  starting PostgreSQL 16.15 (Debian 16.15-1.pgdg13+2) on aarch64-unknown-linux-gnu, compiled by gcc (Debian 14.2.0-19) 14.2.0, 64-bit
+warehouse-db  | 2026-10-22 13:18:36.583 UTC [1] LOG:  listening on IPv4 address "0.0.0.0", port 5432
+warehouse-db  | 2026-10-22 13:18:36.583 UTC [1] LOG:  listening on IPv6 address "::", port 5432
+warehouse-db  | 2026-10-22 13:18:36.584 UTC [1] LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
+warehouse-db  | 2026-10-22 13:18:36.585 UTC [64] LOG:  database system was shut down at 2026-10-22 13:18:36 UTC
+warehouse-db  | 2026-10-22 13:18:36.588 UTC [1] LOG:  database system is ready to accept connections
+warehouse-api  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+warehouse-api  |       Executed DbCommand (7ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+warehouse-api  |       SELECT 1
+warehouse-api  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+warehouse-api  |       Executed DbCommand (10ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+warehouse-api  |       SELECT CASE WHEN COUNT(*) = 0 THEN FALSE ELSE TRUE END
+warehouse-api  |       FROM pg_class AS cls
+warehouse-api  |       JOIN pg_namespace AS ns ON ns.oid = cls.relnamespace
+warehouse-api  |       WHERE
+warehouse-api  |               cls.relkind IN ('r', 'v', 'm', 'f', 'p') AND
+warehouse-api  |               ns.nspname NOT IN ('pg_catalog', 'information_schema') AND
+warehouse-api  |               -- Exclude tables which are members of PG extensions
+warehouse-api  |               NOT EXISTS (
+warehouse-api  |                   SELECT 1 FROM pg_depend WHERE
+warehouse-api  |                       classid=(
+warehouse-api  |                           SELECT cls.oid
+warehouse-api  |                           FROM pg_class AS cls
+warehouse-api  |                                    JOIN pg_namespace AS ns ON ns.oid = cls.relnamespace
+warehouse-api  |                           WHERE relname='pg_class' AND ns.nspname='pg_catalog'
+warehouse-api  |                       ) AND
+warehouse-api  |                       objid=cls.oid AND
+warehouse-api  |                       deptype IN ('e', 'x')
+warehouse-api  |               )
+warehouse-api  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+warehouse-api  |       Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+warehouse-api  |       CREATE TABLE products (
+warehouse-api  |           id integer GENERATED BY DEFAULT AS IDENTITY,
+warehouse-api  |           sku character varying(50) NOT NULL,
+warehouse-api  |           name character varying(200) NOT NULL,
+warehouse-api  |           quantity integer NOT NULL,
+warehouse-api  |           min_quantity integer NOT NULL,
+warehouse-api  |           price numeric(12,2) NOT NULL,
+warehouse-api  |           CONSTRAINT "PK_products" PRIMARY KEY (id)
+warehouse-api  |       );
+warehouse-api  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+warehouse-api  |       Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+warehouse-api  |       CREATE UNIQUE INDEX "IX_products_sku" ON products (sku);
+warehouse-api  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+warehouse-api  |       Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+warehouse-api  |       SELECT EXISTS (
+warehouse-api  |           SELECT 1
+warehouse-api  |           FROM products AS p)
+warehouse-api  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+warehouse-api  |       Executed DbCommand (4ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?', @p2='?' (DbType = Decimal), @p3='?' (DbType = Int32), @p4='?', @p5='?' (DbType = Int32), @p6='?', @p7='?' (DbType = Decimal), @p8='?' (DbType = Int32), @p9='?', @p10='?' (DbType = Int32), @p11='?', @p12='?' (DbType = Decimal), @p13='?' (DbType = Int32), @p14='?', @p15='?' (DbType = Int32), @p16='?', @p17='?' (DbType = Decimal), @p18='?' (DbType = Int32), @p19='?'], CommandType='Text', CommandTimeout='30']
+warehouse-api  |       INSERT INTO products (min_quantity, name, price, quantity, sku)
+warehouse-api  |       VALUES (@p0, @p1, @p2, @p3, @p4)
+warehouse-api  |       RETURNING id;
+warehouse-api  |       INSERT INTO products (min_quantity, name, price, quantity, sku)
+warehouse-api  |       VALUES (@p5, @p6, @p7, @p8, @p9)
+warehouse-api  |       RETURNING id;
+warehouse-api  |       INSERT INTO products (min_quantity, name, price, quantity, sku)
+warehouse-api  |       VALUES (@p10, @p11, @p12, @p13, @p14)
+warehouse-api  |       RETURNING id;
+warehouse-api  |       INSERT INTO products (min_quantity, name, price, quantity, sku)
+warehouse-api  |       VALUES (@p15, @p16, @p17, @p18, @p19)
+warehouse-api  |       RETURNING id;
+warehouse-api  | info: WarehouseApi[0]
+warehouse-api  |       Empty database, seeded 4 products
+warehouse-api  | info: WarehouseApi[0]
+warehouse-api  |       Warehouse API started, connected to PostgreSQL
+warehouse-api  | info: Microsoft.Hosting.Lifetime[14]
+warehouse-api  |       Now listening on: http://[::]:8080
+warehouse-api  | info: Microsoft.Hosting.Lifetime[0]
+warehouse-api  |       Application started. Press Ctrl+C to shut down.
+warehouse-api  | info: Microsoft.Hosting.Lifetime[0]
+warehouse-api  |       Hosting environment: Production
+warehouse-api  | info: Microsoft.Hosting.Lifetime[0]
+warehouse-api  |       Content root path: /app
+warehouse-api  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+warehouse-api  |       Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+warehouse-api  |       SELECT 1
+warehouse-api  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+warehouse-api  |       Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+warehouse-api  |       SELECT p.id, p.min_quantity, p.name, p.price, p.quantity, p.sku
+warehouse-api  |       FROM products AS p
+warehouse-api  |       ORDER BY p.id
+warehouse-api  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+warehouse-api  |       Executed DbCommand (1ms) [Parameters=[@req_Sku='?'], CommandType='Text', CommandTimeout='30']
+warehouse-api  |       SELECT EXISTS (
+warehouse-api  |           SELECT 1
+warehouse-api  |           FROM products AS p
+warehouse-api  |           WHERE p.sku = @req_Sku)
+warehouse-api  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+warehouse-api  |       Executed DbCommand (1ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?', @p2='?' (DbType = Decimal), @p3='?' (DbType = Int32), @p4='?'], CommandType='Text', CommandTimeout='30']
+warehouse-api  |       INSERT INTO products (min_quantity, name, price, quantity, sku)
+warehouse-api  |       VALUES (@p0, @p1, @p2, @p3, @p4)
+warehouse-api  |       RETURNING id;
+warehouse-api  | info: Program[0]
+warehouse-api  |       CREATE product GLUE-1 (id=5)
+warehouse-api  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+warehouse-api  |       Executed DbCommand (0ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+warehouse-api  |       SELECT p.id, p.min_quantity, p.name, p.price, p.quantity, p.sku
+warehouse-api  |       FROM products AS p
+warehouse-api  |       WHERE p.id = @p
+warehouse-api  |       LIMIT 1
+warehouse-api  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+warehouse-api  |       Executed DbCommand (0ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+warehouse-api  |       SELECT p.id, p.min_quantity, p.name, p.price, p.quantity, p.sku
+warehouse-api  |       FROM products AS p
+warehouse-api  |       WHERE p.id = @p
+warehouse-api  |       LIMIT 1
+warehouse-api  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+warehouse-api  |       Executed DbCommand (0ms) [Parameters=[@req_Sku='?', @id='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+warehouse-api  |       SELECT EXISTS (
+warehouse-api  |           SELECT 1
+warehouse-api  |           FROM products AS p
+warehouse-api  |           WHERE p.sku = @req_Sku AND p.id <> @id)
+warehouse-api  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+warehouse-api  |       Executed DbCommand (1ms) [Parameters=[@p2='?' (DbType = Int32), @p0='?' (DbType = Decimal), @p1='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+warehouse-api  |       UPDATE products SET price = @p0, quantity = @p1
+warehouse-api  |       WHERE id = @p2;
+warehouse-api  | info: Program[0]
+warehouse-api  |       UPDATE product 5 -> GLUE-1, qty=55
+warehouse-api  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+warehouse-api  |       Executed DbCommand (0ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+warehouse-api  |       SELECT p.id, p.min_quantity, p.name, p.price, p.quantity, p.sku
+warehouse-api  |       FROM products AS p
+warehouse-api  |       WHERE p.id = @p
+warehouse-api  |       LIMIT 1
+warehouse-api  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+warehouse-api  |       Executed DbCommand (0ms) [Parameters=[@p0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+warehouse-api  |       DELETE FROM products
+warehouse-api  |       WHERE id = @p0;
+warehouse-api  | info: Program[0]
+warehouse-api  |       DELETE product 4 (TAPE-50)
+warehouse-api  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+warehouse-api  |       Executed DbCommand (0ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+warehouse-api  |       SELECT p.id, p.min_quantity, p.name, p.price, p.quantity, p.sku
+warehouse-api  |       FROM products AS p
+warehouse-api  |       WHERE p.id = @p
+warehouse-api  |       LIMIT 1
+warehouse-api  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+warehouse-api  |       Executed DbCommand (0ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+warehouse-api  |       SELECT p.id, p.min_quantity, p.name, p.price, p.quantity, p.sku
+warehouse-api  |       FROM products AS p
+warehouse-api  |       WHERE p.id = @p
+warehouse-api  |       LIMIT 1
+warehouse-api  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+warehouse-api  |       Executed DbCommand (0ms) [Parameters=[@p1='?' (DbType = Int32), @p0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+warehouse-api  |       UPDATE products SET quantity = @p0
+warehouse-api  |       WHERE id = @p1;
+warehouse-api  | info: Program[0]
+warehouse-api  |       RECEIVE NUT-M8: +400 -> 700
+warehouse-api  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+warehouse-api  |       Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+warehouse-api  |       SELECT p.id, p.min_quantity, p.name, p.price, p.quantity, p.sku
+warehouse-api  |       FROM products AS p
+warehouse-api  |       ORDER BY p.id
+warehouse-api  | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+warehouse-api  |       Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+warehouse-api  |       SELECT p.id, p.min_quantity, p.name, p.price, p.quantity, p.sku
+warehouse-api  |       FROM products AS p
+warehouse-api  |       ORDER BY p.id

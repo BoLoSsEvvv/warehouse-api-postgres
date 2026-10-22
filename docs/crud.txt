@@ -1,0 +1,32 @@
+### READ: все товары
+$ curl -s http://localhost:8080/products
+[{"id":1,"sku":"BOLT-M8","name":"Болт M8x40","quantity":1200,"minQuantity":500,"price":3.50,"lowStock":false},{"id":2,"sku":"NUT-M8","name":"Гайка M8","quantity":300,"minQuantity":500,"price":1.20,"lowStock":true},{"id":3,"sku":"PAINT-WH","name":"Краска белая, 10 л","quantity":15,"minQuantity":10,"price":2400.00,"lowStock":false},{"id":4,"sku":"TAPE-50","name":"Скотч 50 мм","quantity":0,"minQuantity":20,"price":85.00,"lowStock":true}]
+
+### CREATE: новый товар
+$ curl -s -X POST http://localhost:8080/products -H 'Content-Type: application/json' -d '{"sku":"GLUE-1","name":"Клей ПВА 1 кг","quantity":40,"minQuantity":10,"price":210}'
+{"id":5,"sku":"GLUE-1","name":"Клей ПВА 1 кг","quantity":40,"minQuantity":10,"price":210,"lowStock":false}
+
+### READ: созданный товар
+$ curl -s http://localhost:8080/products/5
+{"id":5,"sku":"GLUE-1","name":"Клей ПВА 1 кг","quantity":40,"minQuantity":10,"price":210.00,"lowStock":false}
+
+### UPDATE: меняем остаток и цену
+$ curl -s -X PUT http://localhost:8080/products/5 -H 'Content-Type: application/json' -d '{"sku":"GLUE-1","name":"Клей ПВА 1 кг","quantity":55,"minQuantity":10,"price":199.90}'
+{"id":5,"sku":"GLUE-1","name":"Клей ПВА 1 кг","quantity":55,"minQuantity":10,"price":199.90,"lowStock":false}
+
+### DELETE: удаляем скотч (id=4)
+$ curl -s -o /dev/null -w 'HTTP %{http_code}' -X DELETE http://localhost:8080/products/4
+HTTP 204
+
+### READ: удалённый товар -> 404
+$ curl -s http://localhost:8080/products/4
+{"error":"Product 4 not found"}
+
+### Приход гаек на склад
+$ curl -s -X POST http://localhost:8080/products/2/receive -H 'Content-Type: application/json' -d '{"amount":400}'
+{"id":2,"sku":"NUT-M8","name":"Гайка M8","quantity":700,"minQuantity":500,"price":1.20,"lowStock":false}
+
+### READ: итоговый список
+$ curl -s http://localhost:8080/products
+[{"id":1,"sku":"BOLT-M8","name":"Болт M8x40","quantity":1200,"minQuantity":500,"price":3.50,"lowStock":false},{"id":2,"sku":"NUT-M8","name":"Гайка M8","quantity":700,"minQuantity":500,"price":1.20,"lowStock":false},{"id":3,"sku":"PAINT-WH","name":"Краска белая, 10 л","quantity":15,"minQuantity":10,"price":2400.00,"lowStock":false},{"id":5,"sku":"GLUE-1","name":"Клей ПВА 1 кг","quantity":55,"minQuantity":10,"price":199.90,"lowStock":false}]
+

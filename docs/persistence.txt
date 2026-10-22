@@ -1,0 +1,32 @@
+### Данные ДО перезапуска
+$ curl -s http://localhost:8080/products
+[{"id":1,"sku":"BOLT-M8","name":"Болт M8x40","quantity":1200,"minQuantity":500,"price":3.50,"lowStock":false},{"id":2,"sku":"NUT-M8","name":"Гайка M8","quantity":700,"minQuantity":500,"price":1.20,"lowStock":false},{"id":3,"sku":"PAINT-WH","name":"Краска белая, 10 л","quantity":15,"minQuantity":10,"price":2400.00,"lowStock":false},{"id":5,"sku":"GLUE-1","name":"Клей ПВА 1 кг","quantity":55,"minQuantity":10,"price":199.90,"lowStock":false}]
+
+$ docker compose down
+
+
+(контейнеры удалены, volume db_data остался)
+$ docker volume ls --filter name=db_data
+DRIVER    VOLUME NAME
+local     warehouseapipostgres_db_data
+
+
+$ docker compose up -d
+
+
+### Данные ПОСЛЕ перезапуска — GLUE-1 на месте, TAPE-50 удалён, гаек 700
+$ curl -s http://localhost:8080/products
+[{"id":1,"sku":"BOLT-M8","name":"Болт M8x40","quantity":1200,"minQuantity":500,"price":3.50,"lowStock":false},{"id":2,"sku":"NUT-M8","name":"Гайка M8","quantity":700,"minQuantity":500,"price":1.20,"lowStock":false},{"id":3,"sku":"PAINT-WH","name":"Краска белая, 10 л","quantity":15,"minQuantity":10,"price":2400.00,"lowStock":false},{"id":5,"sku":"GLUE-1","name":"Клей ПВА 1 кг","quantity":55,"minQuantity":10,"price":199.90,"lowStock":false}]
+
+### То же самое прямо из PostgreSQL
+$ docker compose exec -T db psql -U postgres -d app -c 'SELECT id, sku, name, quantity, min_quantity, price FROM products ORDER BY id;'
+ id |   sku    |        name        | quantity | min_quantity |  price  
+----+----------+--------------------+----------+--------------+---------
+  1 | BOLT-M8  | Болт M8x40         |     1200 |          500 |    3.50
+  2 | NUT-M8   | Гайка M8           |      700 |          500 |    1.20
+  3 | PAINT-WH | Краска белая, 10 л |       15 |           10 | 2400.00
+  5 | GLUE-1   | Клей ПВА 1 кг      |       55 |           10 |  199.90
+(4 rows)
+
+
+
